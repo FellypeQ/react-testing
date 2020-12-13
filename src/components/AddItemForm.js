@@ -1,30 +1,38 @@
 import React from "react";
 
 const AddItemForm = (props) => {
+  // A função "handleChange" controla os inputs do usuário, armazenando as informações que ele coloca no formulário no "inputState".
+
   function handleChange(event) {
     const { name, value } = event.currentTarget;
     props.setInputState({ ...props.inputState, [name]: value });
   }
 
+  // -------------------------------------------------
+
+  // A função "handleSubmit" pega as informações contidas no "inputState" e as utiliza para criar um objeto no outro state chamado "listState".
+
   function handleSubmit(event) {
     event.preventDefault();
     props.setListState([
-      ...props.listState,
+      ...props.listState, // Espalha o "listState" antigo para não sobrescrever com o novo input
       {
-        content: props.inputState,
-        completed: false,
-        id: (Math.random() * 100).toString(),
+        content: props.inputState, // Armazena o "inputState", contendo NOME, QUANTIDADE e CATEGORIA, nesta chave chamada "content"
+        completed: false, // Adiciona uma nova chave chamada "completed", cujo único propósito é ter alguma forma de "toggle" nos items da lista. Utilizamos ela para fins de CSS.
+        id: (Math.random() * 100).toString(), // Precisavamos de uma string única para utilizar o drag and drop, provavelmente daria pra usar as coisas do backend no lugar disso.
       },
     ]);
     props.setInputState({
+      // Após criar o objeto e guarda-lo no "listState", reseta o "inputState" para o valor original, caso contrário o campo permaneceria preenchido no formulário.
       name: "",
-      quantity: 0,
+      quantity: 1,
       category: "Geladeira",
     });
   }
 
   console.log(props.inputState);
   console.log(props.listState);
+  // -------------------------------------------------
 
   return (
     <form>
