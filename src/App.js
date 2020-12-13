@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import AddItemForm from "./components/AddItemForm";
+import ItemList from "./components/ItemList";
+import { Container } from "react-bootstrap";
+
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.css";
 
 function App() {
+  const [inputState, setInputState] = useState({
+    name: "",
+    quantity: 0,
+    category: "Geladeira",
+  });
+
+  const [listState, setListState] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className="my-5">
+      <AddItemForm
+        inputState={inputState}
+        setInputState={setInputState}
+        listState={listState}
+        setListState={setListState}
+      />
+      <ItemList listState={listState} setListState={setListState} />
+    </Container>
   );
 }
 
