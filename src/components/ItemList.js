@@ -39,10 +39,16 @@ const ItemList = (props) => {
     ) {
       return;
     }
-    const items = [...props.listState];
-    const [reordedItems] = items.splice(source.index, 1);
-    items.splice(destination.index, 0, reordedItems);
-    props.setListState(items);
+
+    const list = reorder(
+      props.listState,
+      result.source.index,
+      result.destination.index
+    );
+
+    this.setState({
+      files,
+    });
   }
 
   // Dentro do render existem 3 componentes (DragDropContext, Droppable e Draggable) da biblioteca que servem para delimitar a área em que os elementos poderão ser largados, bem como quais elementos poderão ser arrastados.
