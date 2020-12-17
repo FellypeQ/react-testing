@@ -29,17 +29,27 @@ const ItemList = (props) => {
   // A função handleOnDragEnd é uma função auxiliar da biblioteca que permite o Drag and Drop. Basicamente ela utiliza o método splice para reorganizar o índice dos elementos no array, ou seja, ela faz a parte "programática" do aspecto visual de arrastar um elemento do array para outro lugar.
 
   function handleOnDragEnd(result) {
+    const { destination, source } = result;
+    if (!destination) {
+      return;
+    }
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
     const items = [...props.listState];
-    const [reordedItems] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reordedItems);
+    const [reordedItems] = items.splice(source.index, 1);
+    items.splice(destination.index, 0, reordedItems);
     props.setListState(items);
   }
 
   // Dentro do render existem 3 componentes (DragDropContext, Droppable e Draggable) da biblioteca que servem para delimitar a área em que os elementos poderão ser largados, bem como quais elementos poderão ser arrastados.
 
   return (
-    <Container>
-      <DragDropContext onDragEnd={handleOnDragEnd}>
+    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <Container>
         <Droppable droppableId="itemList">
           {(provided) => (
             <ul {...provided.droppableProps} ref={provided.innerRef}>
@@ -80,8 +90,8 @@ const ItemList = (props) => {
             </ul>
           )}
         </Droppable>
-      </DragDropContext>
-    </Container>
+      </Container>
+    </DragDropContext>
   );
 };
 
